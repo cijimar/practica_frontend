@@ -1,19 +1,56 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { UserService } from '../../core/services/user.service';
+
+import { FormsModule } from '@angular/forms';
+
+import ConstRoutes from '../../shared/constants/const-routes';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  standalone: true,
-  imports: []
+  imports: [FormsModule]
 })
 export class LoginComponent {
 
-  constructor(private router: Router) {
-    // @TODO: Implementar el constructor
-  }
+  username = '';
+  password = '';
 
-  // @TODO: Implementar métodos, atributos, etc. necesarios para el funcionamiento del login
+  errorMessage = '';
+
+  constructor(
+    private userService: UserService,
+    private router: Router
+  ) {}
+
+  login(): void {
+
+    this.errorMessage = '';
+
+    this.userService.login(
+      this.username,
+      this.password
+    ).subscribe({
+
+      next: (response) => {
+
+        localStorage.setItem(
+          'loggedUser',
+          JSON.stringify(response)
+        );
+
+        this.router.navigate([
+          ConstRoutes.PATH_USUARIOS
+        ]);
+      },
+
+      error: (error) => {
+
+        this.errorMessage =
+          'Usuario o contraseña incorrectos';
+      }
+    });
+  }
 }

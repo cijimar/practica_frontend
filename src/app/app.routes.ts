@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './features/login/login.component';
-import ConstRoutes from './shared/contants/const-routes';
+import ConstRoutes from './shared/constants/const-routes';
 import {UserListComponent} from "./features/user-list/user-list.component";
 
 export const routes: Routes = [
