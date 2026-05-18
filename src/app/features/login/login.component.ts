@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { UserService } from '../../core/services/user.service';
-
 import { FormsModule } from '@angular/forms';
 
+import { UserService } from '../../core/services/user.service';
 import ConstRoutes from '../../shared/constants/const-routes';
 
 @Component({
@@ -17,7 +15,6 @@ export class LoginComponent {
 
   username = '';
   password = '';
-
   errorMessage = '';
 
   constructor(
@@ -29,21 +26,12 @@ export class LoginComponent {
 
     this.errorMessage = '';
 
-    this.userService.login(
-      this.username,
-      this.password
-    ).subscribe({
-
+    this.userService.login(this.username, this.password).subscribe({
       next: (response) => {
 
-        localStorage.setItem(
-          'loggedUser',
-          JSON.stringify(response)
-        );
+        localStorage.setItem('loggedUser', JSON.stringify(response));
 
-        this.router.navigate([
-          ConstRoutes.PATH_USUARIOS
-        ]);
+        this.router.navigate([ConstRoutes.PATH_USUARIOS]);
       },
 
       error: (error) => {

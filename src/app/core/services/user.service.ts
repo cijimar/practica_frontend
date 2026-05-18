@@ -11,7 +11,7 @@ import { Usuario } from '../models/user.model';
 })
 export class UserService {
 
-  private apiUrl = ConstUrls.API_URL + '/usuarios';
+  private apiUrl = ConstUrls.API_URL + '/api/v1/usuarios';
 
   constructor(private http: HttpClient) {}
 
@@ -26,7 +26,7 @@ export class UserService {
     };
 
     return this.http.post(
-      ConstUrls.API_URL + '/login',
+      ConstUrls.API_URL + '/api/v1/login',
       body
     );
   }
