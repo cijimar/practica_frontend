@@ -17,6 +17,8 @@ import { UserService } from 'src/app/core/services/user.service';
 export class UserListComponent implements OnInit {
 
   usuarios: Usuario [] = [];
+  direcciones: any [] = [];
+
   @Output() cerrarPopUpOk = new EventEmitter<void>();
   @Output() cerrarPopUpCancel = new EventEmitter<void>();
 
@@ -29,16 +31,46 @@ export class UserListComponent implements OnInit {
 
     console.log("Cargando usuarios...");
 
-  this.userService.getAllUsers().subscribe({
-    next: (data) => {
-      console.log("DATA BACKEND:", data);
-      this.usuarios = data;
-    },
-    error: (error) => {
-      console.error("ERROR BACKEND:", error);
-    }
-  });
+    // Cargamos los usuarios
+    this.userService.getAllUsers().subscribe({
+      next: (data) => {
+        console.log("DATA BACKEND:", data);
+        this.usuarios = data;
+      },
+      error: (error) => {
+        console.error("ERROR BACKEND:", error);
+      }
+    });
 
+    //Cargamos las direcciones
+    this.userService.getAllDirecciones?.().subscribe({
+      next: (data) => {
+        console.log("DATA BACKEND DIRECCIONES:", data);
+        this.direcciones = data;
+      },
+      error: (error) => {
+        console.error("ERROR BACKEND DIRECCIONES:", error);
+      }
+    });
+
+  }
+
+  // Metodo para obtener la dirección principal de un usuario
+  getDireccionPrincipal(usuario: any): string {
+    const direccionesUsuario = this.direcciones.filter(
+      d => d.usuarioId === usuario.id
+    );
+
+    if (!direccionesUsuario || direccionesUsuario.length === 0) {
+      return 'Sin dirección';
+    }
+
+    const principal = direccionesUsuario.find(
+      d => d.direccionPrincipal === true
+    );
+
+    const dir = principal ?? direccionesUsuario[0];
+    return `${dir.nombreCalle} ${dir.numeroCalle}`;
   }
 
   onCerrarPopUpOk() {

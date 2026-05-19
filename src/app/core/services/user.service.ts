@@ -68,4 +68,11 @@ export class UserService {
   deleteUser(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  // =========================
+  // OBTENER TODAS LAS DIRECCIONES (si tu backend lo tiene aquí)
+  // =========================
+  getAllDirecciones?(): Observable<any[]> {
+    return this.http.get<any[]>(ConstUrls.API_URL + '/api/v1/direcciones');
+  }
 }

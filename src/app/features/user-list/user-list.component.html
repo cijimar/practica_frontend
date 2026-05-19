@@ -15,6 +15,7 @@
         <th>Género</th>
         <th>Puesto</th>
         <th>Admin</th>
+        <th>Dirección Principal</th>
       </tr>
     </thead>
 
@@ -36,14 +37,12 @@
             alt="Hombre"
             class="img-gender"
         />
-
         <img
             *ngIf="usuario?.generoNombre === 'Mujer'"
             src="assets/images/Female.JPG"
             alt="Mujer"
             class="img-gender"
         />
-
         <img
             *ngIf="usuario?.generoNombre !== 'Hombre' && usuario?.generoNombre !== 'Mujer'"
             src="assets/images/Other.JPG"
@@ -59,6 +58,10 @@
         <td>
           <span *ngIf="usuario?.esAdmin">✔</span>
           <span *ngIf="!usuario?.esAdmin">✖</span>
+        </td>
+
+        <td [title]="getDireccionPrincipal(usuario)">
+          {{ getDireccionPrincipal(usuario) }}
         </td>
 
       </tr>
