@@ -1,14 +1,76 @@
-
-<app-user-popup *ngIf="modoPopup !== 'CLOSED'"
-                (cerrarPopUpOk)="onCerrarPopUpOk()"
-                (cerrarPopUpCancel)="onCerrarPopUpCancel()"
-/>
-
 <div class="user-list-container">
-    <h2>User List</h2>
-    <!-- @TODO: Implement user list display here -->
-    <div>
-        <button (click)="launchPopup()">Popup</button>
-    </div>
+
+  <h2>User List</h2>
+
+  <div>
+    <button (click)="launchPopup()">Nuevo usuario</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nick</th>
+        <th>Nombre</th>
+        <th>Apellidos</th>
+        <th>Género</th>
+        <th>Puesto</th>
+        <th>Admin</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let usuario of usuarios">
+
+        <td>{{ usuario?.nickUsuario }}</td>
+
+        <td>{{ usuario?.nombre }}</td>
+
+        <td>
+          {{ usuario?.primerApellido }} {{ usuario?.segundoApellido }}
+        </td>
+
+            <td>
+        <img
+            *ngIf="usuario?.generoNombre === 'Hombre'"
+            src="assets/images/Male.JPG"
+            alt="Hombre"
+            class="img-gender"
+        />
+
+        <img
+            *ngIf="usuario?.generoNombre === 'Mujer'"
+            src="assets/images/Female.JPG"
+            alt="Mujer"
+            class="img-gender"
+        />
+
+        <img
+            *ngIf="usuario?.generoNombre !== 'Hombre' && usuario?.generoNombre !== 'Mujer'"
+            src="assets/images/Other.JPG"
+            alt="Otro"
+            class="img-gender"
+        />
+        </td>
+
+        <td>
+          {{ usuario?.puestoDeTrabajoNombre }}
+        </td>
+
+        <td>
+          <span *ngIf="usuario?.esAdmin">✔</span>
+          <span *ngIf="!usuario?.esAdmin">✖</span>
+        </td>
+
+      </tr>
+    </tbody>
+
+  </table>
 
 </div>
+
+<!-- POPUP -->
+<app-user-popup
+  *ngIf="modoPopup !== 'CLOSED'"
+  (cerrarPopUpOk)="onCerrarPopUpOk()"
+  (cerrarPopUpCancel)="onCerrarPopUpCancel()">
+</app-user-popup>
