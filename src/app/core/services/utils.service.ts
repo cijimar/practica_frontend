@@ -12,18 +12,18 @@ export default async function to(promise: Promise<any>) {
     }
 }
 
-export function isOkResponse(response) {
+export function isOkResponse(response: any): boolean {
     if (response && response.body && response.body.type === "OK") {
         return true
     }
     return false
 }
 
-export function loadResponseData(response) {
+export function loadResponseData(response: any) {
     return response.body.data;
 }
 
-export function loadResponseError(response) {
+export function loadResponseError(response: any) {
     if (!response || !response.body || !response.body.exception) {
         return "Error inesperado de servidor";
     } else {
@@ -36,15 +36,20 @@ export const headers = new HttpHeaders({
 });
 
 export function loadCredentials(): HttpParams {
+    const usuarioLogado = obtenerUsuarioLogado();
+    if (!usuarioLogado) {
+        throw new Error("No hay usuario logueado");
+    }
     return new HttpParams()
-        .set(ConstUrls.NICK_USUARIO_PARAM, obtenerUsuarioLogado().nickUsuario)
-        .set(ConstUrls.PASS_USUARIO_PARAM, obtenerUsuarioLogado().contrasena);
+        .set(ConstUrls.NICK_USUARIO_PARAM, usuarioLogado.nickUsuario)
+        .set(ConstUrls.PASS_USUARIO_PARAM, usuarioLogado.contrasena);
 }
 
 export function guardarUsuarioLogado(usuario: Usuario) {
     localStorage.setItem(ConstLocalStorage.USUARIO_LOGADO_STORAGE, JSON.stringify(usuario));
 }
 
-export function obtenerUsuarioLogado(): Usuario {
-    return JSON.parse(localStorage.getItem(ConstLocalStorage.USUARIO_LOGADO_STORAGE));
+export function obtenerUsuarioLogado(): Usuario | null {
+    const usuario = localStorage.getItem(ConstLocalStorage.USUARIO_LOGADO_STORAGE);
+    return usuario ? JSON.parse(usuario) : null;
 }

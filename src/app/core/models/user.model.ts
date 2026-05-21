@@ -5,9 +5,9 @@ import {Direccion} from "./direccion.model";
 export interface Usuario {
   id: number | null;
   esAdmin: boolean;
-  nickUsuario: string | null;
+  nickUsuario: string;
   nombre: string | null;
-  contrasena: string | null;
+  contrasena: string;
   fechaHoraCreacion: Date;
   genero: Genero;
   primerApellido: string | null;

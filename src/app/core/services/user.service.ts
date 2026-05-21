@@ -15,9 +15,6 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  // =========================
-  // LOGIN (si tu backend lo usa aquí)
-  // =========================
   login(username: string, password: string): Observable<any> {
 
     const body = {
@@ -70,7 +67,7 @@ export class UserService {
   }
 
   // =========================
-  // OBTENER TODAS LAS DIRECCIONES (si tu backend lo tiene aquí)
+  // OBTENER TODAS LAS DIRECCIONES 
   // =========================
   getAllDirecciones?(): Observable<any[]> {
     return this.http.get<any[]>(ConstUrls.API_URL + '/api/v1/direcciones');
