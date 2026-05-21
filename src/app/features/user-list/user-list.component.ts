@@ -81,11 +81,16 @@ export class UserListComponent implements OnInit {
     this.modoPopup = 'CLOSED';
   }
   
-  launchPopup() {
-    
+  launchPopup() {    
     this.modoPopup = 'LAUNCH';
   }
 
+  // Metodo para obtener el numero de direcciones de un usuario
+  getNumeroDirecciones(usuarioId: number): number {
+    return this.direcciones.filter(
+      d => d.usuarioId === usuarioId
+    ).length;
+  }
  
 
 }

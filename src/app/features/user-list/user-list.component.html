@@ -16,6 +16,7 @@
         <th>Puesto</th>
         <th>Admin</th>
         <th>Dirección Principal</th>
+        <th>Número de Direcciones</th>
       </tr>
     </thead>
 
@@ -62,6 +63,10 @@
 
         <td [title]="getDireccionPrincipal(usuario)">
           {{ getDireccionPrincipal(usuario) }}
+        </td>
+
+        <td>
+          {{ getNumeroDirecciones(usuario.id) }}
         </td>
 
       </tr>
