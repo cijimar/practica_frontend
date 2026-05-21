@@ -6,6 +6,14 @@
     <button (click)="launchPopup()">Nuevo usuario</button>
   </div>
 
+  <div class="container-button">
+  <button class="main-button-icon" (click)="eliminarUsuarioSeleccionado()" [disabled]="!usuarioSeleccionado">
+    <img
+      class="img-icon"
+      src="assets/images/DeleteIcon.JPG">
+  </button>
+</div>
+
   <table>
     <thead>
       <tr>
@@ -15,12 +23,18 @@
         <th>Género</th>
         <th>Puesto</th>
         <th>Admin</th>
-        <th>Dirección Principal</th>
+        <th>Dirección Principal</th> 
+        <th>Número Direcciones</th>     
       </tr>
     </thead>
 
     <tbody>
-      <tr *ngFor="let usuario of usuarios">
+        <tr *ngFor="let usuario of usuarios"
+          (click)="seleccionarUsuario(usuario)"
+          [style.cursor]="'pointer'"
+          [style.backgroundColor]="
+            usuarioSeleccionado?.id === usuario.id ? '#d3e3fd' : ''
+          ">
 
         <td>{{ usuario?.nickUsuario }}</td>
 
@@ -45,7 +59,7 @@
         />
         <img
             *ngIf="usuario?.generoNombre !== 'Hombre' && usuario?.generoNombre !== 'Mujer'"
-            src="assets/images/Other.JPG"
+            src="assets/images/Other.png"
             alt="Otro"
             class="img-gender"
         />
@@ -58,11 +72,13 @@
         <td>
           <span *ngIf="usuario?.esAdmin">✔</span>
           <span *ngIf="!usuario?.esAdmin">✖</span>
-        </td>
+        </td>        
 
         <td [title]="getDireccionPrincipal(usuario)">
           {{ getDireccionPrincipal(usuario) }}
-        </td>
+        </td>        
+
+        <td>{{ getNumDirecciones(usuario) }}</td>
 
       </tr>
     </tbody>

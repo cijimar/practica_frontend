@@ -69,7 +69,7 @@ export class UserService {
   // =========================
   // OBTENER TODAS LAS DIRECCIONES 
   // =========================
-  getAllDirecciones?(): Observable<any[]> {
+  getAllDirecciones(): Observable<any[]> {
     return this.http.get<any[]>(ConstUrls.API_URL + '/api/v1/direcciones');
   }
 }

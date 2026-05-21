@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { UserPopupComponent } from '../user-popup/user-popup.component';
 import { Usuario } from 'src/app/core/models/user.model';
 import { UserService } from 'src/app/core/services/user.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user-list',
@@ -18,11 +19,12 @@ export class UserListComponent implements OnInit {
 
   usuarios: Usuario [] = [];
   direcciones: any [] = [];
-
+  usuarioSeleccionado?: Usuario;
+  
   @Output() cerrarPopUpOk = new EventEmitter<void>();
   @Output() cerrarPopUpCancel = new EventEmitter<void>();
 
-  modoPopup: String = 'CLOSED';
+  modoPopup: string = 'CLOSED';
 
   constructor(private router: Router, private userService: UserService) {      
   }
@@ -33,9 +35,9 @@ export class UserListComponent implements OnInit {
 
     // Cargamos los usuarios
     this.userService.getAllUsers().subscribe({
-      next: (data) => {
-        console.log("DATA BACKEND:", data);
-        this.usuarios = data;
+      next: (usuarios) => {
+        console.log("DATA BACKEND:", usuarios);
+        this.usuarios = usuarios;
       },
       error: (error) => {
         console.error("ERROR BACKEND:", error);
@@ -43,34 +45,29 @@ export class UserListComponent implements OnInit {
     });
 
     //Cargamos las direcciones
-    this.userService.getAllDirecciones?.().subscribe({
+    this.userService.getAllDirecciones().subscribe({
       next: (data) => {
         console.log("DATA BACKEND DIRECCIONES:", data);
         this.direcciones = data;
       },
       error: (error) => {
-        console.error("ERROR BACKEND DIRECCIONES:", error);
+        console.error(error);
       }
     });
-
+  
   }
 
   // Metodo para obtener la dirección principal de un usuario
   getDireccionPrincipal(usuario: any): string {
-    const direccionesUsuario = this.direcciones.filter(
-      d => d.usuarioId === usuario.id
+    const dir = this.direcciones.find(
+      d => d.usuarioId === usuario.id && d.direccionPrincipal
     );
+    return dir ? `${dir.nombreCalle} ${dir.numeroCalle}` : '-';     
+  }
 
-    if (!direccionesUsuario || direccionesUsuario.length === 0) {
-      return 'Sin dirección';
-    }
-
-    const principal = direccionesUsuario.find(
-      d => d.direccionPrincipal === true
-    );
-
-    const dir = principal ?? direccionesUsuario[0];
-    return `${dir.nombreCalle} ${dir.numeroCalle}`;
+  //Metodo contador direcciones
+  getNumDirecciones(usuario: any): number {
+    return this.direcciones.filter(d => d.usuarioId === usuario.id).length;
   }
 
   onCerrarPopUpOk() {
@@ -81,11 +78,39 @@ export class UserListComponent implements OnInit {
     this.modoPopup = 'CLOSED';
   }
   
-  launchPopup() {
-    
+  launchPopup() {    
     this.modoPopup = 'LAUNCH';
   }
 
- 
+  // Metodo seleccionar usuario
+  seleccionarUsuario(usuario: Usuario): void {
+    console.log('Seleccionado:', usuario);
+    this.usuarioSeleccionado = usuario;
+  }
+
+  //Metodo eliminar usuario seleccionado
+  eliminarUsuarioSeleccionado(): void {
+    if (!this.usuarioSeleccionado) {
+      alert('Selecciona un usuario');
+      return;
+    }
+
+    this.userService
+      .deleteUser(this.usuarioSeleccionado.id!)
+      .subscribe({
+        next: () => {
+          this.usuarios = this.usuarios.filter(
+            u => u.id !== this.usuarioSeleccionado?.id
+          );
+          this.usuarioSeleccionado = undefined;
+          console.log('Usuario eliminado');
+        },
+
+        error: (error) => {
+          console.error(error);
+        }
+      });
+  }
+
 
 }
