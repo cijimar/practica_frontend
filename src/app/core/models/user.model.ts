@@ -19,7 +19,7 @@ export interface Usuario {
 }
 
 export const usuarioInicial: Usuario = {
-  id: 0,
+  id: null,
   esAdmin: false,
   nickUsuario: '',
   nombre: '',

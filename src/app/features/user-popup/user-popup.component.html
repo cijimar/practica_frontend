@@ -1,11 +1,65 @@
-<!--<div class="dialog-overlay" (click)="onCancel()"></div>-->
-<div class="dialog-overlay"></div>
-<div class="dialog-box">
-    <div class="dialog-title">
-        <h2>Pop Up</h2>
+<div class="popup-backdrop">
+
+  <div class="popup-container">
+
+    <h2>
+      {{ modo === 'CREATE' ? 'Nuevo usuario' : 'Editar usuario' }}
+    </h2>
+
+    <!-- NICK -->
+    <label>Nick</label>
+    <input type="text" [(ngModel)]="usuarioForm.nickUsuario" />
+
+    <!-- NOMBRE -->
+    <label>Nombre</label>
+    <input type="text" [(ngModel)]="usuarioForm.nombre" />
+
+    <!-- APELLIDOS -->
+    <label>Primer apellido</label>
+    <input type="text" [(ngModel)]="usuarioForm.primerApellido" />
+
+    <label>Segundo apellido</label>
+    <input type="text" [(ngModel)]="usuarioForm.segundoApellido" />
+
+    <!-- GENERO -->
+    <label>Género</label>
+    <select [(ngModel)]="usuarioForm.genero.id">
+      <option [value]="1">Hombre</option>
+      <option [value]="2">Mujer</option>
+      <option [value]="3">Otro</option>
+    </select>
+
+    <!-- PUESTO -->
+    <label>Puesto de trabajo</label>
+    <select [(ngModel)]="usuarioForm.puestoTrabajo.id">
+      <option [value]="1">Desarrollador</option>
+      <option [value]="2">Diseñador</option>
+      <option [value]="3">QA</option>
+    </select>
+
+    <!-- ADMIN -->
+    <label>
+      <input type="checkbox" [(ngModel)]="usuarioForm.esAdmin" />
+      Es administrador
+    </label>
+
+    <!-- FECHA NACIMIENTO -->
+    <label>Fecha nacimiento</label>
+    <input type="date" [(ngModel)]="usuarioForm.fechaNacimiento" />
+
+    <!-- BOTONES -->
+    <div class="popup-buttons">
+
+      <button (click)="onSave()">
+        Guardar
+      </button>
+
+      <button (click)="onCancel()">
+        Cancelar
+      </button>
+
     </div>
 
-    <button (click)="onSave()">Aceptar</button>
-    <button (click)="onCancel()">Cancelar</button>
-    <!-- @TODO: Implementar el contenido del pop up, así como los botones de acción (ej. Cancelar, Aceptar) -->
+  </div>
+
 </div>

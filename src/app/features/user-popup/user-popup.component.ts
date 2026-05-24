@@ -1,29 +1,67 @@
-import { Component, EventEmitter, OnInit, Output} from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { Usuario } from "src/app/core/models/user.model";
 
 @Component({
     selector: 'app-user-popup',
     templateUrl: './user-popup.component.html',
     styleUrls: ['./user-popup.component.css'],
     standalone: true,
-    imports: [ CommonModule ]
+    imports: [ CommonModule, FormsModule ]
 })
-export class UserPopupComponent implements OnInit {
 
-    @Output() cerrarPopUpOk = new EventEmitter<void>();
+export class UserPopupComponent {
+
+    @Input() modo: 'CREATE' | 'EDIT' = 'CREATE';
+    @Input() usuario: Usuario | null = null;
+
+    @Output() cerrarPopUpOk = new EventEmitter<Usuario>();
     @Output() cerrarPopUpCancel = new EventEmitter<void>();
-    constructor() {
 
+    usuarioForm: Usuario = this.initUsuario();
+
+    ngOnChanges(): void {
+        if (this.modo === 'EDIT' && this.usuario) {
+        this.usuarioForm = { ...this.usuario };
+        } else {
+        this.usuarioForm = this.initUsuario();
+        }
     }
 
-    async ngOnInit() {
+    initUsuario(): Usuario {
+    return {
+        id: 0,
+        esAdmin: false,
+        nickUsuario: '',
+        nombre: '',
+        contrasena: '',
+        fechaHoraCreacion: new Date(),
+
+        genero: {
+        id: 1,
+        nombre: ''
+        },
+
+        primerApellido: '',
+        segundoApellido: '',
+        fechaNacimiento: null,
+        horaDesayuno: '',
+
+        puestoTrabajo: {
+        id: 1,
+        nombre: ''
+        },
+
+        direcciones: []
+    };
     }
 
-    async onSave() {
-        this.cerrarPopUpOk.emit();
+    onSave() {
+        this.cerrarPopUpOk.emit(this.usuarioForm);
     }
+
     onCancel() {
         this.cerrarPopUpCancel.emit();
-
     }
 }

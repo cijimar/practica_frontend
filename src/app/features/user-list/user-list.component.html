@@ -90,6 +90,8 @@
 <!-- POPUP -->
 <app-user-popup
   *ngIf="modoPopup !== 'CLOSED'"
-  (cerrarPopUpOk)="onCerrarPopUpOk()"
-  (cerrarPopUpCancel)="onCerrarPopUpCancel()">
+  [modo]="modoPopup"
+  [usuario]="usuarioEditando"
+  (cerrarPopUpOk)="cerrarPopup()"
+  (cerrarPopUpCancel)="cerrarPopup()">
 </app-user-popup>

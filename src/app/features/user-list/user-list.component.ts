@@ -18,13 +18,15 @@ import { Observable } from 'rxjs';
 export class UserListComponent implements OnInit {
 
   usuarios: Usuario [] = [];
-  direcciones: any [] = [];
   usuarioSeleccionado?: Usuario;
+  usuarioEditando: Usuario | null = null;
+
+  direcciones: any [] = [];  
   
   @Output() cerrarPopUpOk = new EventEmitter<void>();
   @Output() cerrarPopUpCancel = new EventEmitter<void>();
 
-  modoPopup: string = 'CLOSED';
+  modoPopup: 'CLOSED' | 'CREATE' | 'EDIT' = 'CLOSED';
 
   constructor(private router: Router, private userService: UserService) {      
   }
@@ -78,8 +80,9 @@ export class UserListComponent implements OnInit {
     this.modoPopup = 'CLOSED';
   }
   
-  launchPopup() {    
-    this.modoPopup = 'LAUNCH';
+  launchPopup(): void {
+    this.usuarioEditando = null;
+    this.modoPopup = 'CREATE';
   }
 
   // Metodo seleccionar usuario
@@ -110,6 +113,16 @@ export class UserListComponent implements OnInit {
           console.error(error);
         }
       });
+  }
+
+  editarUsuario(usuario: Usuario): void {
+    this.usuarioEditando = { ...usuario }; 
+    this.modoPopup = 'EDIT';
+  }
+
+  cerrarPopup(): void {
+    this.modoPopup = 'CLOSED';
+    this.usuarioEditando = null;
   }
 
 
