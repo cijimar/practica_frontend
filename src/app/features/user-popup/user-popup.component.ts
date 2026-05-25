@@ -23,9 +23,13 @@ export class UserPopupComponent {
 
     ngOnChanges(): void {
         if (this.modo === 'EDIT' && this.usuario) {
-        this.usuarioForm = { ...this.usuario };
+            this.usuarioForm = {
+                ...this.usuario,
+                genero: this.usuario.genero ?? { id: (this.usuario as any).generoId, nombre: '' },
+                puestoTrabajo: this.usuario.puestoTrabajo ?? { id: (this.usuario as any).puestoDeTrabajoId, nombre: '' }
+            };
         } else {
-        this.usuarioForm = this.initUsuario();
+            this.usuarioForm = this.initUsuario();
         }
     }
 

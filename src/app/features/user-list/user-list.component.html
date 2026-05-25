@@ -7,12 +7,13 @@
   </div>
 
   <div class="container-button">
-  <button class="main-button-icon" (click)="eliminarUsuarioSeleccionado()" [disabled]="!usuarioSeleccionado">
-    <img
-      class="img-icon"
-      src="assets/images/DeleteIcon.JPG">
-  </button>
-</div>
+    <button class="main-button-icon" (click)="editarUsuario(usuarioSeleccionado!)" [disabled]="!usuarioSeleccionado">
+      Editar
+    </button>
+    <button class="main-button-icon" (click)="eliminarUsuarioSeleccionado()" [disabled]="!usuarioSeleccionado">
+      <img class="img-icon" src="assets/images/DeleteIcon.JPG">
+    </button>
+  </div>
 
   <table>
     <thead>
@@ -91,7 +92,7 @@
 <app-user-popup
   *ngIf="modoPopup !== 'CLOSED'"
   [modo]="modoPopup"
-  [usuario]="usuarioEditando"
-  (cerrarPopUpOk)="cerrarPopup()"
-  (cerrarPopUpCancel)="cerrarPopup()">
+  [usuario]="usuarioSeleccionado || null"
+  (cerrarPopUpOk)="onGuardarUsuario($event)"
+  (cerrarPopUpCancel)="onCerrarPopUpCancel()">
 </app-user-popup>

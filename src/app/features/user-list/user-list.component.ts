@@ -89,6 +89,7 @@ export class UserListComponent implements OnInit {
   seleccionarUsuario(usuario: Usuario): void {
     console.log('Seleccionado:', usuario);
     this.usuarioSeleccionado = usuario;
+    this.modoPopup = 'EDIT';
   }
 
   //Metodo eliminar usuario seleccionado
@@ -114,6 +115,46 @@ export class UserListComponent implements OnInit {
         }
       });
   }
+
+  //Metodo guardar usuario
+  onGuardarUsuario(usuario: Usuario): void {
+
+    console.log('USUARIO A GUARDAR:', usuario);
+
+    // CREATE
+    if (usuario.id === 0) {
+      this.userService.createUser(usuario).subscribe({
+        next: (nuevoUsuario) => {
+          this.usuarios.push(nuevoUsuario);
+          this.modoPopup = 'CLOSED';
+          console.log('Usuario creado');
+        },
+        error: (error) => {
+          console.error(error);
+        }
+      });
+    }
+
+    // EDIT
+    else {
+      this.userService.updateUser(usuario).subscribe({
+        next: (usuarioActualizado) => {
+          const index = this.usuarios.findIndex(
+            u => u.id === usuarioActualizado.id
+          );
+          if (index !== -1) {
+            this.usuarios[index] = usuarioActualizado;
+          }
+          this.modoPopup = 'CLOSED';
+          console.log('Usuario actualizado');
+        },
+        error: (error) => {
+          console.error(error);
+        }
+      });
+    }
+  }
+
 
   editarUsuario(usuario: Usuario): void {
     this.usuarioEditando = { ...usuario }; 

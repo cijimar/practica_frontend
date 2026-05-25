@@ -45,18 +45,39 @@ export class UserService {
   // =========================
   // CREAR USUARIO
   // =========================
-  createUser(user: Usuario): Observable<Usuario> {
-    return this.http.post<Usuario>(this.apiUrl, user);
+  createUser(usuario: Usuario): Observable<Usuario> {
+    const body = {
+      esAdmin: usuario.esAdmin,
+      nickUsuario: usuario.nickUsuario,
+      contrasena: usuario.contrasena,
+      nombre: usuario.nombre,
+      primerApellido: usuario.primerApellido,
+      segundoApellido: usuario.segundoApellido,
+      fechaNacimiento: usuario.fechaNacimiento,
+      horaDesayuno: usuario.horaDesayuno,
+      generoId: Number(usuario.genero.id),
+      puestoDeTrabajoId: usuario.puestoTrabajo?.id ? Number(usuario.puestoTrabajo.id) : null
+    };
+    return this.http.post<Usuario>(this.apiUrl, body);
   }
 
   // =========================
   // ACTUALIZAR USUARIO
   // =========================
-  updateUser(user: Usuario): Observable<Usuario> {
-    return this.http.put<Usuario>(
-      `${this.apiUrl}/${user.id}`,
-      user
-    );
+  updateUser(usuario: Usuario): Observable<Usuario> {
+    const body = {
+      esAdmin: usuario.esAdmin,
+      nickUsuario: usuario.nickUsuario,
+      contrasena: (usuario as any).contrasena ?? '',
+      nombre: usuario.nombre,
+      primerApellido: usuario.primerApellido,
+      segundoApellido: usuario.segundoApellido,
+      fechaNacimiento: usuario.fechaNacimiento,
+      horaDesayuno: usuario.horaDesayuno,
+      generoId: (usuario as any).generoId ?? usuario.genero?.id,
+      puestoDeTrabajoId: (usuario as any).puestoDeTrabajoId ?? usuario.puestoTrabajo?.id
+    };
+    return this.http.put<Usuario>(`${this.apiUrl}/${usuario.id}`, body);
   }
 
   // =========================
@@ -72,4 +93,5 @@ export class UserService {
   getAllDirecciones(): Observable<any[]> {
     return this.http.get<any[]>(ConstUrls.API_URL + '/api/v1/direcciones');
   }
+
 }
