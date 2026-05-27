@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { Usuario } from "src/app/core/models/user.model";
+import { Usuario } from "../../core/models/user.model";
 
 @Component({
     selector: 'app-user-popup',

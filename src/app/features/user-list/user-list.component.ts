@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from "@angular/router";
 import { UserPopupComponent } from '../user-popup/user-popup.component';
-import { Usuario } from 'src/app/core/models/user.model';
-import { UserService } from 'src/app/core/services/user.service';
+import { Usuario } from '../../core/models/user.model';
+import { UserService } from '../../core/services/user.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -68,7 +68,7 @@ export class UserListComponent implements OnInit {
   }
 
   //Metodo contador direcciones
-  getNumDirecciones(usuario: any): number {
+  getNumeroDirecciones(usuario: any): number {
     return this.direcciones.filter(d => d.usuarioId === usuario.id).length;
   }
 

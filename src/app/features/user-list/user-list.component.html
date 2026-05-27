@@ -79,7 +79,11 @@
           {{ getDireccionPrincipal(usuario) }}
         </td>        
 
-        <td>{{ getNumDirecciones(usuario) }}</td>
+        <td>{{ getNumeroDirecciones(usuario) }}</td>
+
+        <td>
+          {{ getNumeroDirecciones(usuario.id) }}
+        </td>
 
       </tr>
     </tbody>
